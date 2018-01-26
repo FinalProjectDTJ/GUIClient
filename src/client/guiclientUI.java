@@ -9,13 +9,34 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.io.PrintWriter;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Swan
  */
+class SplashStart extends Splash{
+    SplashScreen SplashScreen=new SplashScreen();
+    {
+        
+        guiclientUI guiclientUI=new guiclientUI();
+        try {
+            for (int i = 0; i < 100; i++) {
+                Thread.sleep(50);
+                SplashScreen.loadingNum.setText(Integer.toString(i)+"%");
+                if (i==99) {
+                    SplashScreen.setVisible(true);
+                    guiclientUI.setVisible(false);
+                }
+            }
+    }catch (Exception e){
+        }
+    }
+}
 public class guiclientUI extends javax.swing.JFrame {
 
+    
+    
     // Socket for connecting with the server.
     private Socket serverSocket;
 
@@ -23,21 +44,21 @@ public class guiclientUI extends javax.swing.JFrame {
     private StreamReceiver serverReader;
 
     private PrintWriter outputWriter;
-    
+
     private void getConnected(String serverName, int portNumber) {
         // Try and connect to the server.
         try {
-          serverSocket = new Socket(serverName, portNumber);
-          outputWriter = new PrintWriter(serverSocket.getOutputStream(), true);
-          // Start a thread to read output from the server.
-          serverReader = new StreamReceiver(serverSocket.getInputStream(), jTextArea1, (jTextField4.getText()).trim());
-          serverReader.start();
+            serverSocket = new Socket(serverName, portNumber);
+            outputWriter = new PrintWriter(serverSocket.getOutputStream(), true);
+            // Start a thread to read output from the server.
+            serverReader = new StreamReceiver(serverSocket.getInputStream(), jTextArea1, (jTextField4.getText()).trim());
+            serverReader.start();
 
-          // Keep the threads and socket active until we are finished.
+            // Keep the threads and socket active until we are finished.
 //          boolean finished = false;
 //          while(!finished);
 
-          // Close the socket if we ever finish.
+            // Close the socket if we ever finish.
 //          serverSocket.close();
 
         } catch (UnknownHostException e) {
@@ -49,7 +70,7 @@ public class guiclientUI extends javax.swing.JFrame {
             jTextArea1.append("Couldn't get I/O from the server.");
             System.err.println("Couldn't get I/O from the server.");
             //System.exit(-1);
-        }    
+        }
     }
     /**
      * Creates new form guiclientUI
@@ -81,10 +102,18 @@ public class guiclientUI extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenuFile = new javax.swing.JMenu();
+        jMenuExit = new javax.swing.JMenuItem();
+        jMenuAbout = new javax.swing.JMenu();
+        jMenuDevInfo = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("DTJ Communication Software");
+        setLocation(new java.awt.Point(700, 100));
 
         jButton1.setText("Link");
+        jButton1.setToolTipText("Start Connection");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -92,14 +121,17 @@ public class guiclientUI extends javax.swing.JFrame {
         });
 
         jTextField1.setText("localhost");
+        jTextField1.setToolTipText("Keep as 'Local Host' or type IP Address.");
 
         jLabel1.setText("Server:");
 
         jTextField3.setText("8888");
+        jTextField3.setToolTipText("Do Not Change");
 
         jLabel2.setText("Port");
 
         jButton3.setText("Close Link");
+        jButton3.setToolTipText("End Connection");
         jButton3.setEnabled(false);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,6 +141,7 @@ public class guiclientUI extends javax.swing.JFrame {
 
         jCheckBox1.setSelected(true);
         jCheckBox1.setText("AES Crypt");
+        jCheckBox1.setToolTipText("Encryption On/Off");
         jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jCheckBox1ActionPerformed(evt);
@@ -116,7 +149,7 @@ public class guiclientUI extends javax.swing.JFrame {
         });
 
         jTextField4.setText("          ");
-        jTextField4.setToolTipText("");
+        jTextField4.setToolTipText("Enter Encryption Key");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -158,8 +191,10 @@ public class guiclientUI extends javax.swing.JFrame {
         );
 
         jTextField2.setText("Hello");
+        jTextField2.setToolTipText("Type Message Here");
 
         jButton2.setText("Send");
+        jButton2.setToolTipText("Click to Send Message!");
         jButton2.setEnabled(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -174,7 +209,7 @@ public class guiclientUI extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 571, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton2)
                 .addContainerGap())
         );
@@ -185,13 +220,43 @@ public class guiclientUI extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton2))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTextArea1.setEditable(false);
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
+        jTextArea1.setToolTipText("Output Screen");
         jScrollPane2.setViewportView(jTextArea1);
+
+        jMenuBar1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jMenuBar1.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
+
+        jMenuFile.setText("File");
+
+        jMenuExit.setText("Exit");
+        jMenuExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuExitActionPerformed(evt);
+            }
+        });
+        jMenuFile.add(jMenuExit);
+
+        jMenuBar1.add(jMenuFile);
+
+        jMenuAbout.setText("About");
+
+        jMenuDevInfo.setText("Developer Info.");
+        jMenuDevInfo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuDevInfoActionPerformed(evt);
+            }
+        });
+        jMenuAbout.add(jMenuDevInfo);
+
+        jMenuBar1.add(jMenuAbout);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -239,15 +304,33 @@ public class guiclientUI extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         try {
-        // Close the socket if we ever finish.
-        serverSocket.close();
-        System.exit(1);
+            // Close the socket if we ever finish.
+            serverSocket.close();
+            System.exit(1);
         } catch (IOException e) {
             jTextArea1.append("Couldn't get I/O from the server.");
             System.err.println("Couldn't get I/O from the server.");
             //System.exit(-1);
-        }  
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jMenuExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuExitActionPerformed
+        {
+            String ObjButtons[] = {"Yes", "No"};
+            int PromptResult = JOptionPane.showOptionDialog(null,
+                    "Are you sure you want to exit?", "Closing Session",
+                    JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
+                    ObjButtons, ObjButtons[1]);
+            if (PromptResult == 0) {
+                System.exit(0);
+
+    }//GEN-LAST:event_jMenuExitActionPerformed
+        }
+    }
+    private void jMenuDevInfoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuDevInfoActionPerformed
+        JOptionPane.showMessageDialog(null, "This program was developed by Dusin Dejesus, Jesse Ford, and Tian Gao \n"
+                + "to full-fill the course requirements for SEN 632 of National University.", "About the Developers", JOptionPane.DEFAULT_OPTION);
+    }//GEN-LAST:event_jMenuDevInfoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -291,6 +374,11 @@ public class guiclientUI extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JMenu jMenuAbout;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuDevInfo;
+    private javax.swing.JMenuItem jMenuExit;
+    private javax.swing.JMenu jMenuFile;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;

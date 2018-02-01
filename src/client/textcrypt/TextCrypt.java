@@ -22,6 +22,11 @@ import java.util.Base64.Encoder;
 import sun.misc.BASE64Decoder;  
 import sun.misc.BASE64Encoder;  
 
+/**
+ *
+ * @author TG
+ */
+
 public class TextCrypt {
 
   public TextCrypt() {
@@ -36,7 +41,7 @@ public class TextCrypt {
             keySeed = System.getProperty("AES_SYS_KEY");    
         }    
         if (keySeed == null || keySeed.trim().length() == 0) {    
-            keySeed = "DTJ^#@";// 默认种子    
+            keySeed = "DTJ^#@"; //default seed      
         }    
         try {    
             SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");    
@@ -48,13 +53,12 @@ public class TextCrypt {
             throw new RuntimeException(e);    
         }    
   }
-
-  /**  
-    * 根据密钥对指定的明文plainText进行加密.  
-    *  
-    * @param plainText 明文  
-    * @return 加密后的密文.  
-    */  
+   /**
+     * Encrypt the specified plain text plainText according to the key.
+     *
+     * @param plainText clear text
+     * @return encrypted ciphertext.
+     */
   public static final String encrypt(String plainText, SecretKey secretKey) {  
     //Key secretKey = getKey(seed);  
     try {  
@@ -70,12 +74,12 @@ public class TextCrypt {
     }   
   }  
 
-  /**  
-   * 根据密钥对指定的密文cipherText进行解密.  
-   *  
-   * @param cipherText 密文  
-   * @return 解密后的明文.  
-   */  
+  /**
+    * Decrypt the specified ciphertext cipherText according to the key.
+    *
+    * @param cipherText ciphertext
+    * @return decrypted plaintext.
+    */ 
   public static final String decrypt(String cipherText, SecretKey secretKey) {  
     //Key secretKey = getKey(seed);  
     try {  

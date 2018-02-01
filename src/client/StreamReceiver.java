@@ -14,8 +14,8 @@ import client.textcrypt.TextCrypt;
 /**
  * Takes an input stream and an output stream.
  * Writes the input stream into the output stream.
- * @author Jack Galilee
- * @version 1.0
+ * @author DD JF TG, base on works of J. Galilee
+ * @version 1.2
  */
 public class StreamReceiver extends Thread {
 

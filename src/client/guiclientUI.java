@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Swan
+ * @author TG
  */
 class SplashStart extends Splash{
     SplashScreen SplashScreen=new SplashScreen();
